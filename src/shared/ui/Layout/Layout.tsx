@@ -1,19 +1,20 @@
-import { AppShell, Burger, Group, NavLink, Title } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { AppShell, Burger, Button, Group, NavLink, Title } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   IconFileText,
   IconUsers,
   IconTrophy,
   IconSettings,
-} from '@tabler/icons-react';
-import styles from './Layout.module.css';
+} from "@tabler/icons-react";
+import styles from "./Layout.module.css";
+import { userLogout } from "@/entities/auth";
 
 const navItems = [
-  { label: 'Posts', path: '/posts', icon: IconFileText },
-  { label: 'Users', path: '/users', icon: IconUsers },
-  { label: 'Tournaments', path: '/tournaments', icon: IconTrophy },
-  { label: 'Settings', path: '/settings', icon: IconSettings },
+  { label: "Posts", path: "/posts", icon: IconFileText },
+  { label: "Users", path: "/users", icon: IconUsers },
+  { label: "Tournaments", path: "/tournaments", icon: IconTrophy },
+  { label: "Settings", path: "/settings", icon: IconSettings },
 ];
 
 export const Layout = () => {
@@ -24,7 +25,7 @@ export const Layout = () => {
   return (
     <AppShell
       header={{ height: 60 }}
-      navbar={{ width: 260, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+      navbar={{ width: 260, breakpoint: "sm", collapsed: { mobile: !opened } }}
       padding="md"
     >
       <AppShell.Header className={styles.header}>
@@ -47,6 +48,9 @@ export const Layout = () => {
             }}
           />
         ))}
+        <Button color="red" onClick={userLogout}>
+          Log out
+        </Button>
       </AppShell.Navbar>
 
       <AppShell.Main>

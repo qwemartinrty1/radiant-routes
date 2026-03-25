@@ -1,12 +1,27 @@
-import { Button, Table, Title, Group, Loader, Text } from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
-import { usePosts, useDeletePost } from '@/entities/post';
-import styles from './PostsPage.module.css';
+import { useEffect } from "react";
+import { Button, Table, Title, Group, Loader, Text } from "@mantine/core";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { usePosts, useDeletePost } from "@/entities/post";
+import styles from "./PostsPage.module.css";
+import { ACCOUNT_ID, IS_USER_LOGIN, NICKNAME, TOKEN } from "@/constants";
+import { userSetup } from "@/entities/auth";
 
 export const PostsPage = () => {
   const navigate = useNavigate();
   const { data: posts, isLoading } = usePosts();
   const deletePost = useDeletePost();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const isUserAlreadyLogin = localStorage.getItem(IS_USER_LOGIN);
+
+    if (!isUserAlreadyLogin) {
+      userSetup(searchParams);
+
+      setSearchParams({});
+    }
+  }, [searchParams, setSearchParams]);
 
   if (isLoading) return <Loader className={styles.loader} />;
 
@@ -14,7 +29,7 @@ export const PostsPage = () => {
     <div className={styles.root}>
       <Group justify="space-between" mb="md">
         <Title order={2}>Posts</Title>
-        <Button onClick={() => navigate('/create-posts')}>Create Post</Button>
+        <Button onClick={() => navigate("/create-posts")}>Create Post</Button>
       </Group>
 
       {posts?.length ? (
@@ -30,7 +45,9 @@ export const PostsPage = () => {
             {posts.map((post) => (
               <Table.Tr key={post.id}>
                 <Table.Td>{post.title}</Table.Td>
-                <Table.Td>{new Date(post.created_at).toLocaleDateString()}</Table.Td>
+                <Table.Td>
+                  {new Date(post.created_at).toLocaleDateString()}
+                </Table.Td>
                 <Table.Td>
                   <Group gap="xs">
                     <Button
