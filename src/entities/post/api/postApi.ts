@@ -1,9 +1,9 @@
-import { supabase } from '@/shared/api';
+import { getSupabase } from '@/shared/api';
 import type { Post, CreatePostDto, UpdatePostDto } from '../model/types';
 
 export const postApi = {
   getAll: async (): Promise<Post[]> => {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('posts')
       .select('*')
       .order('created_at', { ascending: false });
@@ -12,7 +12,7 @@ export const postApi = {
   },
 
   getById: async (id: string): Promise<Post> => {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('posts')
       .select('*')
       .eq('id', id)
@@ -22,7 +22,7 @@ export const postApi = {
   },
 
   create: async (dto: CreatePostDto): Promise<Post> => {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('posts')
       .insert(dto)
       .select()
@@ -32,7 +32,7 @@ export const postApi = {
   },
 
   update: async (id: string, dto: UpdatePostDto): Promise<Post> => {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('posts')
       .update(dto)
       .eq('id', id)
@@ -43,7 +43,7 @@ export const postApi = {
   },
 
   delete: async (id: string): Promise<void> => {
-    const { error } = await supabase.from('posts').delete().eq('id', id);
+    const { error } = await getSupabase().from('posts').delete().eq('id', id);
     if (error) throw error;
   },
 };
