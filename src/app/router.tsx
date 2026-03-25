@@ -8,8 +8,13 @@ import { UserDetailPage } from '@/pages/users/UserDetailPage';
 import { TournamentsPage } from '@/pages/tournaments/TournamentsPage';
 import { TournamentDetailPage } from '@/pages/tournaments/TournamentDetailPage';
 import { SettingsPage } from '@/pages/settings/SettingsPage';
+import { LoginPage} from "@/pages/login/LoginPage"
 
 export const router = createBrowserRouter([
+  {
+    path: '/login',
+    element: <LoginPage />,
+  },
   {
     element: <Layout />,
     children: [
