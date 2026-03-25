@@ -1,9 +1,9 @@
-import { supabase } from '@/shared/api';
+import { getSupabase } from '@/shared/api';
 import type { User, CreateUserDto, UpdateUserDto } from '../model/types';
 
 export const userApi = {
   getAll: async (): Promise<User[]> => {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('users')
       .select('*')
       .order('created_at', { ascending: false });
@@ -12,7 +12,7 @@ export const userApi = {
   },
 
   getById: async (id: string): Promise<User> => {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('users')
       .select('*')
       .eq('id', id)
@@ -22,7 +22,7 @@ export const userApi = {
   },
 
   create: async (dto: CreateUserDto): Promise<User> => {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('users')
       .insert(dto)
       .select()
@@ -32,7 +32,7 @@ export const userApi = {
   },
 
   update: async (id: string, dto: UpdateUserDto): Promise<User> => {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('users')
       .update(dto)
       .eq('id', id)
@@ -43,7 +43,7 @@ export const userApi = {
   },
 
   delete: async (id: string): Promise<void> => {
-    const { error } = await supabase.from('users').delete().eq('id', id);
+    const { error } = await getSupabase().from('users').delete().eq('id', id);
     if (error) throw error;
   },
 };
